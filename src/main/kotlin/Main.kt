@@ -12,6 +12,20 @@ fun Float.redondear(posiciones: Int): Float {
     val factor = 10.0.pow(posiciones.toDouble()).toFloat()
     return (this * factor).roundToInt() / factor
 }
+fun String.capitalizar():String{
+    val texto = this.toList()
+    var palabraCapitalizada = ""
+    var posicion = 0
+    for (caracter in texto){
+        if (caracter == texto[0]) palabraCapitalizada += caracter.toString().uppercase()
+        else if (texto[posicion - 1] == ' ') palabraCapitalizada += caracter.toString().uppercase()
+        else{
+            palabraCapitalizada += caracter.lowercase()
+        }
+        posicion++
+    }
+    return palabraCapitalizada
+}
 
 /**
  * Punto de entrada del programa. Crea una lista de vehículos y una carrera, e inicia la carrera mostrando

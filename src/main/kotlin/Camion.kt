@@ -1,10 +1,6 @@
 
 class Camion (nombre:String, marca:String, modelo:String,capacidadCombustible: Float, combustibleActual:Float, kilometrosActuales: Float, esHibrido: Boolean, val peso:Int) :Automovil(nombre,marca, modelo, capacidadCombustible, combustibleActual, kilometrosActuales, esHibrido){
 
-    init {
-        require(peso in 1000..10000){"El peso debe estar entre 1000 y 10000 kilos"}
-
-    }
 
     companion object{
         const val KM_POR_LITRO_CAMION = 6.25f
@@ -38,6 +34,6 @@ class Camion (nombre:String, marca:String, modelo:String,capacidadCombustible: F
     }
 
     override fun toString(): String {
-        return "Camión(nombre=$nombre, capacidadCombustible=${capacidadCombustible}L, combustibleActual=${combustibleActual}L, esElectrico=$esHibrido, peso=${peso}Kg)"
+        return "Camión(nombre=${nombre.capitalizar()}, capacidadCombustible=${capacidadCombustible}L, combustibleActual=${combustibleActual}L, esElectrico=$esHibrido, peso=${peso}Kg)"
     }
 }

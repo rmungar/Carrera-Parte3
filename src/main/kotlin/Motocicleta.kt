@@ -60,6 +60,6 @@ open class Motocicleta(
      * @return Una representación en cadena de texto de la motocicleta, detallando su identificación, características, y estado actual.
      */
     override fun toString(): String {
-        return "Motocicleta(nombre=$nombre, marca=$marca, modelo=$modelo, capacidadCombustible=${capacidadCombustible}L, combustibleActual=${combustibleActual}L, cilindrada=$cilindrada)"
+        return "Motocicleta(nombre=${nombre.capitalizar()}, marca=$marca, modelo=$modelo, capacidadCombustible=${capacidadCombustible}L, combustibleActual=${combustibleActual}L, cilindrada=$cilindrada)"
     }
 }

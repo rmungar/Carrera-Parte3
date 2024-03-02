@@ -81,6 +81,6 @@ open class Automovil(
      * @return Una cadena de texto que representa al automóvil.
      */
     override fun toString(): String {
-        return "Automovil(nombre=$nombre, marca=$marca, modelo=$modelo, capacidadCombustible=${capacidadCombustible}L, combustibleActual=${combustibleActual}L, esElectrico=$esHibrido)"
+        return "Automovil(nombre=${nombre.capitalizar()}, marca=$marca, modelo=$modelo, capacidadCombustible=${capacidadCombustible}L, combustibleActual=${combustibleActual}L, esElectrico=$esHibrido)"
     }
 }
