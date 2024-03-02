@@ -8,13 +8,13 @@ class Camion (nombre:String, marca:String, modelo:String,capacidadCombustible: F
 
     override fun calcularAutonomia(): Float {
         return if(esHibrido)
-            (combustibleActual * ((KM_POR_LITRO_CAMION + AHORRO_ELECTRICO) - (peso*0.2f))).redondear(2)
-        else(combustibleActual * (KM_POR_LITRO_CAMION - (peso*0.2f)))
+            (combustibleActual * ((KM_POR_LITRO_CAMION + AHORRO_ELECTRICO) - ((peso*0.2f)/1000))).redondear(2)
+        else(combustibleActual * (KM_POR_LITRO_CAMION - ((peso*0.2f)/2))).redondear(2)
     }
 
     override fun actualizaCombustible(distanciaReal: Float) {
         if (esHibrido) {
-            val combustibleGastado = (distanciaReal / (KM_POR_LITRO_CAMION + AHORRO_ELECTRICO))
+            val combustibleGastado = distanciaReal / (KM_POR_LITRO_CAMION + AHORRO_ELECTRICO)
             combustibleActual -= combustibleGastado.redondear(2)
         }
         else {

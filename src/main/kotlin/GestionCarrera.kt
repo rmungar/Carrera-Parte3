@@ -1,7 +1,6 @@
 import kotlin.random.Random
-import kotlin.system.exitProcess
 
-class GestionCarrera {
+open class GestionCarrera {
 
     companion object{
         private val LISTADEMARCAS_COCHES = listOf("Seat","Wolkswagen","Hyundai","Honda","Dacia","Dodge","Masserati","Ferrari","Mercedes","Citroen","Peugeot","Toyota") //Posibles marcas de coches
@@ -32,7 +31,6 @@ class GestionCarrera {
                 TipoVehiculo.Motocicleta -> Random.nextInt(15,30).toFloat().redondear(2)
                 TipoVehiculo.Camion -> Random.nextInt(90,150).toFloat().redondear(2)
                 TipoVehiculo.Quad -> Random.nextInt(20,40).toFloat().redondear(2)
-                else -> 0f
             }
         }
         fun obtenerCombustibleActual(combustibleMax: Float):Float{
@@ -48,7 +46,7 @@ class GestionCarrera {
         }
 
         fun comprobarNombre(nombreIntroducido: String):String{
-            var nombreCorregido = "" // Cadena que se va a modificar y retornar en caso de que la cadena ingresada por el usuario no se correcta
+            var nombreCorregido: String// Cadena que se va a modificar y retornar en caso de que la cadena ingresada por el usuario no se correcta
             if (nombreIntroducido.isBlank() || nombreIntroducido.isEmpty() || NOMBRES_OCUPADOS.contains(nombreIntroducido)){
                 println("Vuelva a ingresar un nombre para el vehículo: ")
                 nombreCorregido = readln().lowercase()
@@ -62,57 +60,107 @@ class GestionCarrera {
             NOMBRES_OCUPADOS.add(nombreIntroducido)
             return nombreIntroducido
         }
-    }
 
-    fun generarParticipantes(){
-        print("Ingrese el número de jugadores -> ")
-        val jugadores = readln().toInt()
-        require(jugadores > 1){"El número de jugadores ha de ser mayor a 1"}
-        println("--------------------------------------")
-        for (jugador in 1..jugadores){
-            print("Ingrese el nombre del jugador $jugador -> ")
-            var nombreVehiculo = readln().lowercase().trim()
-            nombreVehiculo = comprobarNombre(nombreVehiculo)
-            val tipoDeVehiculo = TipoVehiculo.entries.random()
-            val vehiculoGenerado = generarVehiculo(tipoDeVehiculo,  nombreVehiculo) //El vehículo ya generado, con el nombre que ingresó el usuario
-            mostrarVehiculo(vehiculoGenerado)
-
+        fun comprobarJugadores():Int{
+            print("Ingrese el número de jugadores -> ")
+            try {
+                var jugadores = readln().toInt() //Entero que representa la cantidad de instancias a generar
+                while (jugadores !in 1..15) {
+                    print("Vuelva a ingresar el número de jugadores -> ")
+                    jugadores = readln().toInt()
+                }
+                return jugadores
+            }
+            catch (e:NumberFormatException){
+                println("Ese valor no está dentro del rango")
+            }
+            return 0
+        }
+        fun mostrarEntreRondas(contador:Int, carrera: Carrera){
+            val participantes = carrera.participantes
+            var posicion = 1
+            var tipo:TipoVehiculo
+            println("*** CLASIFICACIÓN PARCIAL (ronda $contador) ***")
+            for (vehiculo in participantes.sortedByDescending{ it.kilometrosActuales }){
+                when (vehiculo){
+                    is Automovil -> {
+                        if (vehiculo is Camion){
+                            tipo = TipoVehiculo.Camion
+                            println("$posicion ${vehiculo.obtenerInformacion(tipo)}")
+                        }
+                        else    {
+                            tipo = TipoVehiculo.Automovil
+                            println("$posicion ${vehiculo.obtenerInformacion(tipo)}")
+                        }
+                    }
+                    is Motocicleta -> {
+                        if (vehiculo is Quad){
+                            tipo = TipoVehiculo.Quad
+                            println("$posicion ${vehiculo.obtenerInformacion(tipo)}")
+                        }
+                        else{
+                            tipo = TipoVehiculo.Motocicleta
+                            println("$posicion ${vehiculo.obtenerInformacion(tipo)}")
+                        }
+                    }
+                }
+                posicion++
+            }
+            println()
         }
     }
 
-    fun generarVehiculo(tipoDeVehiculo: TipoVehiculo, nombreVehiculo:String):Vehiculo{
+    fun generarParticipantes():List<Vehiculo>{
+        val participantes = mutableListOf<Vehiculo>()
+        val jugadores = comprobarJugadores() //Entero que representa la cantidad de instancias a generar
+        println("--------------------------------------")
+        for (jugador in 1..jugadores){
+            print("Ingrese el nombre del jugador $jugador -> ")
+            var nombreVehiculo = readln().lowercase().trim() // Nombre del vehículo del usuario
+            nombreVehiculo = comprobarNombre(nombreVehiculo)
+            val tipoDeVehiculo = TipoVehiculo.entries.random() //Genera un tipo de vehículo aleatorio
+            val vehiculoGenerado = generarVehiculo(tipoDeVehiculo,  nombreVehiculo) //El vehículo ya generado, con el nombre que ingresó el usuario
+            mostrarVehiculo(vehiculoGenerado)
+            participantes.add(vehiculoGenerado)
+        }
+        return participantes.toList()
+    }
 
-        val marca = obtenerMarca(tipoDeVehiculo)
-        val modelo = obtenerModelo(tipoDeVehiculo)
-        val combustibleMax = obtenerCapacidadCombustible(tipoDeVehiculo)
-        val combustibleActual = obtenerCombustibleActual(combustibleMax)
+    private fun generarVehiculo(tipoDeVehiculo: TipoVehiculo, nombreVehiculo:String):Vehiculo{
+
+        val marca = obtenerMarca(tipoDeVehiculo) // La marca del vehículo
+        val modelo = obtenerModelo(tipoDeVehiculo) // El modelo del vehículo
+        val combustibleMax = obtenerCapacidadCombustible(tipoDeVehiculo) // Capacidad de combustile del vehículo
+        val combustibleActual = obtenerCombustibleActual(combustibleMax) // Combustible con el que el vehículo va a iniciar la carrera
 
         when (tipoDeVehiculo){
             TipoVehiculo.Automovil -> {
-                val hibrido = Random.nextBoolean()
+                val hibrido = Random.nextBoolean() // Valor aleatorio (true / false) para la propiedad esHibrido
                 val automovil = Automovil(nombreVehiculo, marca, modelo, combustibleMax, combustibleActual, 0.0F, hibrido)
                 return automovil
             }
             TipoVehiculo.Motocicleta -> {
-                val cilindradas = CILINDRADAS_MOTOS.random()
+                val cilindradas = CILINDRADAS_MOTOS.random() // Entero aleatorio procedente de la lista para el valor de la propiedad cilindradas
                 val motocicleta = Motocicleta(nombreVehiculo, marca, modelo, combustibleMax, combustibleActual, 0.0F, cilindradas)
                 return motocicleta
             }
             TipoVehiculo.Camion -> {
-                val hibrido = Random.nextBoolean()
-                val peso = obtenerPesos()
+                val hibrido = Random.nextBoolean() // Valor aleatorio (true / false) para la propiedad esHibrido
+                val peso = obtenerPesos() // Entero aleatorio (entre 1.000 y 10.000) para el valor de la propiedad peso
                 val camion = Camion(nombreVehiculo,marca, modelo, combustibleMax, combustibleActual, 0.0F, hibrido, peso)
                 return camion
             }
             TipoVehiculo.Quad -> {
-                val cilindradas = CILINDRADAS_MOTOS.random()
+                val cilindradas = CILINDRADAS_MOTOS.random() // Entero aleatorio procedente de la lista para el valor de la propiedad cilindradas
                 val quad = Quad(nombreVehiculo, marca, modelo, combustibleMax, combustibleActual, 0.0F, cilindradas)
                 return quad
             }
         }
     }
 
-    fun mostrarVehiculo(vehiculoGenerado:Vehiculo){
-        println("Te ha tocado un ${vehiculoGenerado.toString()}")
+    private fun mostrarVehiculo(vehiculoGenerado:Vehiculo){
+        println("Te ha tocado un ${vehiculoGenerado}")
     }
+
+
 }

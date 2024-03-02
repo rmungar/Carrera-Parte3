@@ -62,8 +62,8 @@ open class Vehiculo(
      *
      * @return Una cadena de texto que representa la información del vehículo.
      */
-    fun obtenerInformacion(): String {
-        return calcularAutonomia().toString()
+    fun obtenerInformacion(tipoDeVehiculo: TipoVehiculo): String {
+        return "${this.nombre.capitalizar()} ${tipoDeVehiculo.descripcion}(km=$kilometrosActuales, combustible=$combustibleActual L)"
     }
 
     /**

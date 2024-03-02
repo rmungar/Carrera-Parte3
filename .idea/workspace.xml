@@ -4,13 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="b6fa9a2e-3868-4084-abe0-524b92749f46" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/kotlinc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+    <list default="true" id="b6fa9a2e-3868-4084-abe0-524b92749f46" name="Changes" comment="Hacer comprobarJugadores y comentar">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/Camion.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Camion.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Carrera.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Carrera.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/GestionCarrera.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/GestionCarrera.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Quad.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Quad.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,17 +39,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Gradle.Build Carrera-Parte3.executor": "Run",
-    "Kotlin.MainKt.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "master",
-    "kotlin-language-version-configured": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Gradle.Build Carrera-Parte3.executor&quot;: &quot;Run&quot;,
+    &quot;Kotlin.MainKt.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -60,6 +59,19 @@
       <option name="presentableId" value="Default" />
       <updated>1709314275449</updated>
     </task>
+    <task id="LOCAL-00001" summary="Hacer comprobarJugadores y comentar">
+      <option name="closed" value="true" />
+      <created>1709388682495</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1709388682495</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Hacer comprobarJugadores y comentar" />
+    <option name="LAST_COMMIT_MESSAGE" value="Hacer comprobarJugadores y comentar" />
   </component>
 </project>

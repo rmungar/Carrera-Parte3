@@ -11,7 +11,7 @@ import kotlin.math.ceil
 class Carrera(
     val nombreCarrera: String,
     private val distanciaTotal: Float,
-    private val participantes: List<Vehiculo> = listOf()
+    val participantes: List<Vehiculo> = listOf()
 ) {
     private val historialAcciones = mutableMapOf<String, MutableList<String>>()
     private var estadoCarrera = false // Indica si la carrera está en curso o ha finalizado.
@@ -24,7 +24,7 @@ class Carrera(
 
     companion object {
         private const val KM_PARA_FILIGRANA = 20f // Cada 20 km, se realiza una filigrana.
-        private const val RONDAS_PARA_INFO = 3
+        private const val RONDAS_PARA_INFO =
     }
 
     /**
@@ -74,12 +74,11 @@ class Carrera(
      */
     fun iniciarCarrera() {
         println("¡Comienza la carrera!")
+        var contador = 0
 
         estadoCarrera = true // Indica que la carrera está en curso.
-        while (estadoCarrera) {
 
-            Thread.sleep(100)
-            print(".")
+        while (estadoCarrera) {
 
             val vehiculoSeleccionado = seleccionaVehiculoQueAvanzara()
             avanzarVehiculo(vehiculoSeleccionado)
@@ -90,6 +89,10 @@ class Carrera(
                 println("\n¡Carrera finalizada!")
                 println("\n¡¡¡ENHORABUENA ${vehiculoGanador.nombre}!!!\n")
             }
+            if (contador % RONDAS_PARA_INFO == 0){
+                GestionCarrera.mostrarEntreRondas(contador,this)
+            }
+            contador++
 
         }
     }
