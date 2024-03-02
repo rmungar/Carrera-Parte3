@@ -77,8 +77,8 @@ open class GestionCarrera {
             return 0
         }
         fun mostrarEntreRondas(contador:Int, carrera: Carrera){
-            val participantes = carrera.participantes
-            var posicion = 1
+            val participantes = carrera.participantes // Lista que contiene todos los participantes de la carrera
+            var posicion = 1 // Entero para modificar la salida del programa
             var tipo:TipoVehiculo
             println("*** CLASIFICACIÓN PARCIAL (ronda $contador) ***")
             for (vehiculo in participantes.sortedByDescending{ it.kilometrosActuales }){

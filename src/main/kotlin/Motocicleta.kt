@@ -1,3 +1,5 @@
+import kotlin.random.Random
+
 /**
  * Representa una motocicleta, que es una especialización de [Vehiculo], con la adición de la cilindrada como propiedad única.
  *
@@ -37,9 +39,11 @@ open class Motocicleta(
      *
      * @return El nivel de combustible restante después de realizar el caballito, como [Float].
      */
-    fun realizaCaballito(): Float {
+    fun realizaCaballito(): Pair<Float,Int> {
+        val retrocesoKm = Random.nextInt(10,50) // Valor que indica lo que retrocede por realizar una filigrana
         actualizaCombustible(KM_POR_CABALLITO)
-        return combustibleActual
+        kilometrosActuales -= retrocesoKm
+        return Pair(combustibleActual, retrocesoKm)
     }
 
     /**

@@ -19,7 +19,7 @@ open class Vehiculo(
     combustibleActual: Float,
     var kilometrosActuales: Float
 ) {
-
+    var paradasRepostaje = 0 //Propiedad para contabilizar los repostajes
     protected val capacidadCombustible = capacidadCombustible.redondear(2)
     var combustibleActual = combustibleActual.redondear(2)
         set(value) {
@@ -110,12 +110,9 @@ open class Vehiculo(
      */
     open fun repostar(cantidadARepostar: Float = 0f): Float {
         val combustiblePrevio = combustibleActual
-
-        if (cantidadARepostar <= 0)
-            combustibleActual = capacidadCombustible // LLENO
-        else
-            combustibleActual = minOf(capacidadCombustible, combustibleActual + cantidadARepostar)
-
+        if (cantidadARepostar <= 0) combustibleActual = capacidadCombustible // LLENO
+        else combustibleActual = minOf(capacidadCombustible, combustibleActual + cantidadARepostar)
+        paradasRepostaje++ //Añadido el aumento de la variable
         return combustibleActual - combustiblePrevio
     }
 }

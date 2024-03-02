@@ -1,4 +1,5 @@
 import kotlin.math.ceil
+import kotlin.random.Random
 
 /**
  * Representa una carrera que incluye múltiples vehículos como participantes. La carrera tiene un nombre, una distancia total
@@ -11,12 +12,12 @@ import kotlin.math.ceil
 class Carrera(
     val nombreCarrera: String,
     private val distanciaTotal: Float,
-    val participantes: List<Vehiculo> = listOf()
+    val participantes: MutableList<Vehiculo> = mutableListOf()
 ) {
     private val historialAcciones = mutableMapOf<String, MutableList<String>>()
     private var estadoCarrera = false // Indica si la carrera está en curso o ha finalizado.
     private val posiciones = mutableMapOf<String, Float>()
-
+    private val posicionDeLlegada = mutableListOf<Vehiculo>() // Recoge el orden de llegada de los vehiculos a los 1000 kms, o a la distancia total, en caso de que se modifique
     init {
         require(distanciaTotal >= 1000) { "La distancia total de la carrera debe ser al menos 1000 km." }
         participantes.forEach { vehiculo -> inicializaDatosParticipante(vehiculo) }
@@ -24,7 +25,7 @@ class Carrera(
 
     companion object {
         private const val KM_PARA_FILIGRANA = 20f // Cada 20 km, se realiza una filigrana.
-        private const val RONDAS_PARA_INFO =
+        private const val RONDAS_PARA_INFO = 3
     }
 
     /**
@@ -55,7 +56,7 @@ class Carrera(
      * distancia total, participantes, estado actual, historial de acciones y posiciones de los vehículos participantes.
      */
     override fun toString(): String {
-        return "NombreCarrera: $nombreCarrera, DistanciaTotal: $distanciaTotal, Participantes: $participantes, EstadoCarrera: $estadoCarrera, HistorialAcciones: $historialAcciones, Posiciones: $posiciones." }
+        return "NombreCarrera: $nombreCarrera, DistanciaTotal: $distanciaTotal, Participantes: $participantes, EstadoCarrera: $estadoCarrera, HistorialAcciones: $historialAcciones" }
 
     /**
      * Inicializa los datos de un participante en la carrera, preparando su historial de acciones y estableciendo
@@ -65,7 +66,7 @@ class Carrera(
      */
     private fun inicializaDatosParticipante(vehiculo: Vehiculo) {
         historialAcciones[vehiculo.nombre] = mutableListOf()
-        posiciones[vehiculo.nombre] = 0f
+        vehiculo.kilometrosActuales = 0f
     }
 
     /**
@@ -73,27 +74,36 @@ class Carrera(
      * alcanza o supera la distancia total de la carrera, determinando así el ganador.
      */
     fun iniciarCarrera() {
-        println("¡Comienza la carrera!")
-        var contador = 0
+        try {
+            println("¡Comienza la carrera!")
+            var contador = 0
 
-        estadoCarrera = true // Indica que la carrera está en curso.
+            while (posicionDeLlegada.size != participantes.size) { // Ahora el bucle funciona siempre y cuando ambas listas no sean del mismo tamaño
 
-        while (estadoCarrera) {
+                val vehiculoSeleccionado = seleccionaVehiculoQueAvanzara()
 
-            val vehiculoSeleccionado = seleccionaVehiculoQueAvanzara()
-            avanzarVehiculo(vehiculoSeleccionado)
+                if (vehiculoSeleccionado.kilometrosActuales == distanciaTotal){
+                    registrarAccion(vehiculoSeleccionado.nombre, "Ya está en la meta")
+                    participantes.remove(vehiculoSeleccionado)
+                }
+                else avanzarVehiculo(vehiculoSeleccionado)
 
-            val vehiculoGanador = determinarGanador()
-            if (vehiculoGanador != null) {
-                estadoCarrera = false
-                println("\n¡Carrera finalizada!")
-                println("\n¡¡¡ENHORABUENA ${vehiculoGanador.nombre}!!!\n")
+                if (contador % RONDAS_PARA_INFO == 0) {
+                    GestionCarrera.mostrarEntreRondas(contador, this)
+                }
+                contador++
+
+                for (participante in participantes) {
+                    if (participante.kilometrosActuales == distanciaTotal && !posicionDeLlegada.contains(participante)){
+                        posicionDeLlegada.add(participante)
+                    }
+                }
             }
-            if (contador % RONDAS_PARA_INFO == 0){
-                GestionCarrera.mostrarEntreRondas(contador,this)
-            }
-            contador++
-
+            println("\n¡Carrera finalizada!")
+            println("\n¡¡¡ENHORABUENA ${posicionDeLlegada[0].nombre.capitalizar()}!!!\n")
+        }
+        catch (e:Exception){
+            println(e.message)
         }
     }
 
@@ -151,7 +161,7 @@ class Carrera(
 
             avanzarTramo(vehiculo, distanciaDeTramo)
             distanciaRestanteEnAvance -= distanciaDeTramo
-            repeat(2) { realizarFiligrana(vehiculo) }
+            repeat(Random.nextInt(0,3)) { realizarFiligrana(vehiculo) }
         }
 
         registrarAccion(vehiculo.nombre, "Finaliza viaje: Total Recorrido $distanciaTotalEnAvance kms (${vehiculo.kilometrosActuales} kms y ${vehiculo.combustibleActual} L actuales)")
@@ -201,14 +211,14 @@ class Carrera(
     private fun realizarFiligrana(vehiculo: Vehiculo) {
         // Lógica para realizar filigranas de motociletas y automovil y registrarlas. Se hará o no aleatoriamente.
         if (comprobarSiTocaHacerFiligrana()) {
-            val combustibleRestante: Float
+            val parametrosFiligrana: Pair<Float,Int>
 
             if (vehiculo is Automovil) {
-                combustibleRestante = vehiculo.realizaDerrape()
-                registrarAccion(vehiculo.nombre, "Derrape: Combustible restante $combustibleRestante L.")
+                parametrosFiligrana = vehiculo.realizaDerrape()
+                registrarAccion(vehiculo.nombre, "Derrape: Combustible restante ${parametrosFiligrana.first} L. Retrocedió: ${parametrosFiligrana.second}Km")
             } else if (vehiculo is Motocicleta) {
-                combustibleRestante = vehiculo.realizaCaballito()
-                registrarAccion(vehiculo.nombre, "Caballito: Combustible restante $combustibleRestante L")
+                parametrosFiligrana = vehiculo.realizaCaballito()
+                registrarAccion(vehiculo.nombre, "Caballito: Combustible restante ${parametrosFiligrana.first} L, Retrocedió: ${parametrosFiligrana.second}Km")
             }
         }
     }
@@ -263,7 +273,12 @@ class Carrera(
 
         posiciones.toList().sortedByDescending { it.second }.forEachIndexed { posicion, (nombre, kilometraje) ->
             val vehiculo = participantes.find { it.nombre == nombre }
-            val paradasRepostaje = historialAcciones[nombre]?.count { it.contains("Repostaje") } ?: 0
+
+            var paradasRepostaje =0 //Ahora paradasRepostaje es una variable que será el valor que devuelva lo siguente:
+            participantes.forEach{
+                if (it.nombre == nombre) paradasRepostaje = it.paradasRepostaje
+            }
+
             val historial = historialAcciones[nombre] ?: emptyList()
 
             if (vehiculo != null)

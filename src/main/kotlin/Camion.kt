@@ -1,3 +1,4 @@
+import kotlin.random.Random
 
 class Camion (nombre:String, marca:String, modelo:String,capacidadCombustible: Float, combustibleActual:Float, kilometrosActuales: Float, esHibrido: Boolean, val peso:Int) :Automovil(nombre,marca, modelo, capacidadCombustible, combustibleActual, kilometrosActuales, esHibrido){
 
@@ -23,14 +24,17 @@ class Camion (nombre:String, marca:String, modelo:String,capacidadCombustible: F
         }
     }
 
-    override fun realizaDerrape(): Float {
+    override fun realizaDerrape(): Pair<Float,Int>{
+        val retrocesoKm = Random.nextInt(10,50) // Valor que indica lo que retrocede por realizar una filigrana
         if (esHibrido) {
             actualizaCombustible(KM_POR_DERRAPE_ELECTRICO)
+            kilometrosActuales -= retrocesoKm
         }
         else {
             actualizaCombustible(KM_POR_DERRAPE)
+            kilometrosActuales -= retrocesoKm
         }
-        return combustibleActual
+        return Pair(combustibleActual, retrocesoKm)
     }
 
     override fun toString(): String {

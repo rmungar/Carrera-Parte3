@@ -35,19 +35,19 @@ fun String.capitalizar():String{
 fun main(){
     try {
         val Gestor = GestionCarrera()
-        val participantes = Gestor.generarParticipantes()
+        val participantes = Gestor.generarParticipantes().toMutableList()
         val carrera = Carrera("Banner Fall", 1000f, participantes)
         println("\n*** ${carrera.nombreCarrera} ***\n")
         carrera.iniciarCarrera()
         val resultados = carrera.obtenerResultados()
 
         println("* Clasificación:\n")
-        resultados.forEach { println("${it.posicion} -> ${it.vehiculo.nombre} (${it.vehiculo.kilometrosActuales} kms)") }
+        resultados.reversed().forEach { println("${it.posicion} -> ${it.vehiculo.nombre.capitalizar()} (${it.vehiculo.kilometrosActuales} kms)") }
 
         println("\n" + resultados.joinToString("\n") { it.toString() })
 
         println("\n* Historial Detallado:\n")
-        resultados.forEach { println("${it.posicion} -> ${it.vehiculo.nombre}\n${it.historialAcciones.joinToString("\n")}\n") }
+        resultados.forEach { println("${it.posicion} -> ${it.vehiculo.nombre.capitalizar()}\n${it.historialAcciones.joinToString("\n")}\n") }
     }
     catch (e:Exception){
         println(e.message)

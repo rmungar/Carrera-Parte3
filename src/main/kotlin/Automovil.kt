@@ -1,3 +1,5 @@
+import kotlin.random.Random
+
 /**
  * Representa un automóvil, que es una especialización de [Vehiculo], añadiendo la característica de si es eléctrico o no.
  *
@@ -48,14 +50,17 @@ open class Automovil(
      *
      * @return El nivel de combustible restante después de realizar el derrape, como [Float].
      */
-    open fun realizaDerrape(): Float {
+    open fun realizaDerrape(): Pair<Float, Int> {
+        val retrocesoKm = Random.nextInt(10,50) // Valor que indica lo que retrocede por realizar una filigrana
         if (esHibrido) {
             actualizaCombustible(KM_POR_DERRAPE_ELECTRICO)
+            kilometrosActuales -= retrocesoKm
         }
         else {
             actualizaCombustible(KM_POR_DERRAPE)
+            kilometrosActuales -= retrocesoKm
         }
-        return combustibleActual
+        return Pair(combustibleActual, retrocesoKm)
     }
 
     /**
