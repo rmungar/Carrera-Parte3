@@ -1,5 +1,8 @@
 import kotlin.random.Random
 
+/**
+ * Representa una forma de gestionar todas las funciones adicionales que se requieren para este proyecto. Esta clase no tiene constructor primario, pero cuenta con varios métodos y y companion object.
+ */
 open class GestionCarrera {
 
     companion object{
@@ -10,6 +13,11 @@ open class GestionCarrera {
         private val CILINDRADAS_MOTOS = listOf(125,250,400,500,750,900,1000) //Posibles cilindradas de motos
         private val NOMBRES_OCUPADOS = mutableListOf<String>() //Lista que almacenará los nombres ya ingresados por el usuario
 
+        /**
+         * Retorna una marca aleatoria en función del tipo de vehiculo
+         * @param tipo -> Tipo de vehiculo
+         * @return marca del vehiculo en formato [String]
+         */
         fun obtenerMarca(tipo:TipoVehiculo):String {
             return when (tipo) {
                 TipoVehiculo.Automovil -> LISTADEMARCAS_COCHES.random()
@@ -17,6 +25,12 @@ open class GestionCarrera {
                 else -> ""
             }
         }
+
+        /**
+         * Retorna un modelo aleatorio en función del tipo de vehiculo
+         * @param tipo -> Tipo de vehiculo
+         * @return modelo del vehiculo en formato [String]
+         */
         fun obtenerModelo(tipo: TipoVehiculo):String {
             return when (tipo) {
                 TipoVehiculo.Automovil -> LISTADEMODELOS_COCHES.random()
@@ -25,6 +39,11 @@ open class GestionCarrera {
             }
         }
 
+        /**
+         * Retorna un valor aleatorio en función del tipo de vehiculo
+         * @param tipo -> Tipo de vehiculo
+         * @return valor del combustible máximo del vehiculo [Float]
+         */
         fun obtenerCapacidadCombustible(tipo: TipoVehiculo):Float{
             return when(tipo){
                 TipoVehiculo.Automovil -> Random.nextInt(30,60).toFloat().redondear(2)
@@ -33,6 +52,11 @@ open class GestionCarrera {
                 TipoVehiculo.Quad -> Random.nextInt(20,40).toFloat().redondear(2)
             }
         }
+        /**
+         * Retorna un valor aleatorio en función del tipo de vehiculo
+         * @param combustibleMax -> Combustible máximo del vehiculo
+         * @return valor del combustible con el que inicia el vehiculo [Float]
+         */
         fun obtenerCombustibleActual(combustibleMax: Float):Float{
             var porcentaje = Random.nextFloat() // Porcentaje sobre la capacidad máxima con la que van a inicar los vehiculos
             while (porcentaje !in 0.2..1.0){
@@ -41,10 +65,19 @@ open class GestionCarrera {
             return (combustibleMax * porcentaje).redondear(2)
         }
 
+        /**
+         * Retorna un entero aleatorio para aquellos Vehiculos que sean Camiones
+         * @return valor del peso del vehiculo [Int]
+         */
         fun obtenerPesos():Int{
             return Random.nextInt(1000,10000) //Peso aleatorio de los camiones
         }
 
+        /**
+         * Comprueba una entrada del usuario y actua en función a esta
+         * @param nombreIntroducido -> Cadena introducida por el usuario
+         * @return cadena modificada en caso de que la original sea incorrecta o la original si era válida [String]
+         */
         fun comprobarNombre(nombreIntroducido: String):String{
             var nombreCorregido: String// Cadena que se va a modificar y retornar en caso de que la cadena ingresada por el usuario no se correcta
             if (nombreIntroducido.isBlank() || nombreIntroducido.isEmpty() || NOMBRES_OCUPADOS.contains(nombreIntroducido)){
@@ -61,6 +94,10 @@ open class GestionCarrera {
             return nombreIntroducido
         }
 
+        /**
+         * Pide y comprueba una entrada del usuario y actua en función a esta
+         * @return el valor que ha ingresado el usuario una vez ha sido comprobado / modificado [Int]
+         */
         fun comprobarJugadores():Int{
             print("Ingrese el número de jugadores -> ")
             try {
@@ -76,6 +113,12 @@ open class GestionCarrera {
             }
             return 0
         }
+
+        /**
+         * Muestra informacion en la consola cada cierto número de rondas
+         * @param contador -> Entero que cuenta las rondas de la carrera
+         * @param carrera -> La instancia de la carrera que se ha creado en el Main
+         */
         fun mostrarEntreRondas(contador:Int, carrera: Carrera){
             val participantes = carrera.participantes // Lista que contiene todos los participantes de la carrera
             var posicion = 1 // Entero para modificar la salida del programa
@@ -110,6 +153,10 @@ open class GestionCarrera {
         }
     }
 
+    /**
+     * Raliza llamadas a funciones externas para realizar lo propuesto en la práctica.
+     * @return La lista con los vehiculos ya generados [List]
+     */
     fun generarParticipantes():List<Vehiculo>{
         val participantes = mutableListOf<Vehiculo>()
         val jugadores = comprobarJugadores() //Entero que representa la cantidad de instancias a generar
@@ -126,6 +173,12 @@ open class GestionCarrera {
         return participantes.toList()
     }
 
+    /**
+     * Genera vehículos aleatoriamente de acuerdo al tipo de vehiculo que recibe
+     * @param tipoDeVehiculo Tipo del vehiculo a generar
+     * @param nombreVehiculo Nombre del vehiculo a generar
+     * @return El vehiculo ya generado [Vehiculo]
+     */
     private fun generarVehiculo(tipoDeVehiculo: TipoVehiculo, nombreVehiculo:String):Vehiculo{
 
         val marca = obtenerMarca(tipoDeVehiculo) // La marca del vehículo
@@ -158,6 +211,10 @@ open class GestionCarrera {
         }
     }
 
+    /**
+     * Imprime en consola datos del vehiculo generado
+     * @param vehiculoGenerado Vehículo que se acaba de generar aleatoriamente
+     */
     private fun mostrarVehiculo(vehiculoGenerado:Vehiculo){
         println("Te ha tocado un ${vehiculoGenerado}")
     }
