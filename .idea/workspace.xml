@@ -6,13 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="b6fa9a2e-3868-4084-abe0-524b92749f46" name="Changes" comment=" comentar">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Automovil.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Automovil.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Camion.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Camion.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/Carrera.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Carrera.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/GestionCarrera.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/GestionCarrera.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Motocicleta.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Motocicleta.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/kotlin/Vehiculo.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Vehiculo.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,6 +21,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -80,6 +76,17 @@
     </task>
     <option name="localTasksCounter" value="3" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Hacer comprobarJugadores y comentar" />

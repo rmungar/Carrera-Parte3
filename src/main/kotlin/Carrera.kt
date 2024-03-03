@@ -83,8 +83,9 @@ class Carrera(
                 val vehiculoSeleccionado = seleccionaVehiculoQueAvanzara()
 
                 if (vehiculoSeleccionado.kilometrosActuales == distanciaTotal){
-                    registrarAccion(vehiculoSeleccionado.nombre, "Ya está en la meta")
-                    participantes.remove(vehiculoSeleccionado)
+                    if (!historialAcciones[vehiculoSeleccionado.nombre]!!.contains("Ya está en la meta")) {
+                        registrarAccion(vehiculoSeleccionado.nombre, "Ya está en la meta")
+                    }
                 }
                 else avanzarVehiculo(vehiculoSeleccionado)
 
